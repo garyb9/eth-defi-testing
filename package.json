@@ -13,7 +13,7 @@
         "mocha": "^8.2.1",
         "npm-git-install": "^0.3.0",
         "solc": "^0.4.17",
-        "truffle-hdwallet-provider": "^1.0.17",
+        "truffle-hdwallet-provider": "^0.0.3",
         "underscore": "^1.9.1",
         "web3": "^1.0.0-beta.26",
         "y18n": "^3.2.1",
