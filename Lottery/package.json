@@ -9,6 +9,7 @@
     "dependencies": {
         "elliptic": "^6.5.4",
         "ganache-cli": "^6.12.1",
+        "ganache-core": "^2.13.2",
         "hosted-git-info": "^2.8.9",
         "mocha": "^8.2.1",
         "npm-git-install": "^0.3.0",
