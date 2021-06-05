@@ -1,1 +1,2 @@
-# Inbox-Smart-Contract-Ethereum
+# Ethereum-Smart-Contracts
+Some basic contracts
