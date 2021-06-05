@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "ganache-cli": "^6.12.1",
+        "hosted-git-info": ">=2.8.9",
         "mocha": "^8.2.1",
         "npm-git-install": "^0.3.0",
         "solc": "^0.4.17",
