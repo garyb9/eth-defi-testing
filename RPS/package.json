@@ -17,6 +17,7 @@
     "hardhat": "^2.4.1"
   },
   "dependencies": {
+    "@nomiclabs/buidler": "^1.4.8",
     "dotenv": "^10.0.0"
   }
 }
