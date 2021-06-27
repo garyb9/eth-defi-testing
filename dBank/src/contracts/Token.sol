@@ -1,21 +1,32 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
+// inherits from openzeppelin
 contract Token is ERC20 {
-  //add minter variable
+  // Variables
+  address public minter; 
 
-  //add minter changed event
+  // Events
+  event MinterChanged(address indexed minter, address indexed newMinter);
 
-  constructor() public payable ERC20("Name", "Symbol") {
-    //asign initial minter
+  // Constructor
+  constructor() public payable ERC20("dToken", "DTKN") {
+    minter = msg.sender;
   }
 
-  //Add pass minter role function
+  // Functions
+  function passMinterRole(address dBank) public returns(bool){
+    require(msg.sender == minter, "Error: msg.sender is not the minter! only creator can pass minter role of dTokens.");
+    minter = dBank;
+
+    emit MinterChanged(msg.sender, dBank);
+    return true;
+  }
 
   function mint(address account, uint256 amount) public {
-    //check if msg.sender have minter role
-		_mint(account, amount);
+    require(msg.sender == minter, "Error: msg.sender is not the minter! only creator can mint dTokens.");
+		_mint(account, amount); // inherited from ERC20
 	}
 }
