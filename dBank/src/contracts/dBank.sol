@@ -1,24 +1,29 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./Token.sol";
+import "./dToken.sol";
 
 contract dBank {
+  // Variables
+  dToken private dtoken;
 
-  //assign Token contract to variable
+  // Events
+  // event MinterChanged(address indexed from, address indexed to);
+
+  
 
   //add mappings
 
   //add events
 
-  //pass as constructor argument deployed Token contract
-  constructor() public {
-    //assign token deployed contract to variable
+  // Constructor
+  constructor(dToken _dtoken) {
+    dtoken = _dtoken; // setting dtoken
   }
 
   function deposit() payable public {
     //check if msg.sender didn't already deposited funds
-    //check if msg.value is >= than 0.01 ETH
+    require(msg.value >= .01 ether, "Error: Value is less than .01 ETH");
 
     //increase msg.sender ether deposit balance
     //start msg.sender hodling time

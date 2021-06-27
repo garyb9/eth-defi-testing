@@ -1,6 +1,6 @@
 import { tokens, ether, ETHER_ADDRESS, EVM_REVERT, wait } from './helpers'
 
-const Token = artifacts.require('./Token')
+const dToken = artifacts.require('./dToken')
 const DecentralizedBank = artifacts.require('./dBank')
 
 require('chai')
@@ -8,41 +8,41 @@ require('chai')
   .should()
 
 contract('dBank', ([deployer, user]) => {
-  let dbank, token
+  let dbank, dtoken
   const interestPerSecond = 31668017 //(10% APY) for min. deposit (0.01 ETH)
 
   beforeEach(async () => {
-    token = await Token.new()
-    dbank = await DecentralizedBank.new(token.address)
-    await token.passMinterRole(dbank.address, {from: deployer})
+    dtoken = await dToken.new()
+    dbank = await DecentralizedBank.new(dtoken.address)
+    await dtoken.passMinterRole(dbank.address, {from: deployer})
   })
 
-  describe('testing token contract...', () => {
+  describe('testing dtoken contract...', () => {
     describe('success', () => {
-      it('checking token name', async () => {
-        expect(await token.name()).to.be.eq('Decentralized Bank Currency')
+      it('checking dtoken name', async () => {
+        expect(await dtoken.name()).to.be.eq('Decentralized Bank Currency')
       })
 
-      it('checking token symbol', async () => {
-        expect(await token.symbol()).to.be.eq('DBC')
+      it('checking dtoken symbol', async () => {
+        expect(await dtoken.symbol()).to.be.eq('DTKN')
       })
 
-      it('checking token initial total supply', async () => {
-        expect(Number(await token.totalSupply())).to.eq(0)
+      it('checking dtoken initial total supply', async () => {
+        expect(Number(await dtoken.totalSupply())).to.eq(0)
       })
 
-      it('dBank should have Token minter role', async () => {
-        expect(await token.minter()).to.eq(dbank.address)
+      it('dBank should have dToken minter role', async () => {
+        expect(await dtoken.minter()).to.eq(dbank.address)
       })
     })
 
     describe('failure', () => {
       it('passing minter role should be rejected', async () => {
-        await token.passMinterRole(user, {from: deployer}).should.be.rejectedWith(EVM_REVERT)
+        await dtoken.passMinterRole(user, {from: deployer}).should.be.rejectedWith(EVM_REVERT)
       })
 
-      it('tokens minting should be rejected', async () => {
-        await token.mint(user, '1', {from: deployer}).should.be.rejectedWith(EVM_REVERT) //unauthorized minter
+      it('dtokens minting should be rejected', async () => {
+        await dtoken.mint(user, '1', {from: deployer}).should.be.rejectedWith(EVM_REVERT) //unauthorized minter
       })
     })
   })
@@ -100,7 +100,7 @@ contract('dBank', ([deployer, user]) => {
 
       it('user should receive proper amount of interest', async () => {
         //time synchronization problem make us check the 1-3s range for 2s deposit time
-        balance = Number(await token.balanceOf(user))
+        balance = Number(await dtoken.balanceOf(user))
         expect(balance).to.be.above(0)
         expect(balance%interestPerSecond).to.eq(0)
         expect(balance).to.be.below(interestPerSecond*4)
