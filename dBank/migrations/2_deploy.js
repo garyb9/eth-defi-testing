@@ -1,8 +1,9 @@
-const Token = artifacts.require("Token");
+const dToken = artifacts.require("dToken");
 const dBank = artifacts.require("dBank");
 
 module.exports = async function(deployer) {
 	//deploy Token
+	await deployer.deploy(dToken);
 
 	//assign token into variable to get it's address
 	

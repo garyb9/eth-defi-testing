@@ -4,15 +4,15 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // inherits from openzeppelin
-contract Token is ERC20 {
+contract dToken is ERC20 {
   // Variables
   address public minter; 
 
   // Events
-  event MinterChanged(address indexed minter, address indexed newMinter);
+  event MinterChanged(address indexed from, address indexed to);
 
   // Constructor
-  constructor() public payable ERC20("dToken", "DTKN") {
+  constructor() payable ERC20("dToken", "DTKN") {
     minter = msg.sender;
   }
 
