@@ -1,7 +1,7 @@
 {
-  "name": "dbank",
+  "name": "dapptoken",
   "version": "0.1.0",
-  "description": "Decentralized Bank",
+  "description": "Dapp Token",
   "author": "garyb9",
   "homepage": ".",
   "dependencies": {
