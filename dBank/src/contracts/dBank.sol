@@ -6,15 +6,13 @@ import "./dToken.sol";
 contract dBank {
   // Variables
   dToken private dtoken;
+  mapping (address => uint) public etherBalanceOf;
+  mapping (address => uint) public depositStart;
+  mapping (address => bool) public isDeposited; 
 
   // Events
-  // event MinterChanged(address indexed from, address indexed to);
-
-  
-
-  //add mappings
-
-  //add events
+  event Deposit(address indexed user, uint etherAmount, uint timeStart);
+  event Withdraw(address indexed user, uint etherAmount, uint depositTime, uint interest);
 
   // Constructor
   constructor(dToken _dtoken) {
@@ -22,31 +20,35 @@ contract dBank {
   }
 
   function deposit() payable public {
-    //check if msg.sender didn't already deposited funds
-    require(msg.value >= .01 ether, "Error: Value is less than .01 ETH");
+    require(isDeposited[msg.sender] == false, "Error: deposit already active!");
+    require(msg.value >= .01 ether, "Error: Value is less than .01 ETH!");
 
-    //increase msg.sender ether deposit balance
-    //start msg.sender hodling time
-
-    //set msg.sender deposit status to true
-    //emit Deposit event
+    etherBalanceOf[msg.sender] += msg.value;
+    depositStart[msg.sender] += block.timestamp;
+    isDeposited[msg.sender] = true;
+    emit Deposit(msg.sender, msg.value, block.timestamp);
   }
 
   function withdraw() public {
-    //check if msg.sender deposit status is true
-    //assign msg.sender ether deposit balance to variable for event
+    require(isDeposited[msg.sender] == true, "Error: no previous deposit");
+    uint userBalance = etherBalanceOf[msg.sender]; // for event
 
-    //check user's hodl time
+    //check user's hodl time, and calculate the accured interest
+    uint depositTime = block.timestamp - depositStart[msg.sender];
+    uint interestperSecond = 31668017 * (etherBalanceOf[msg.sender] / 1e16);
+    uint interest = interestperSecond * depositTime;
 
-    //calc interest per second
-    //calc accrued interest
+    //send users eth balance back
+    payable(msg.sender).transfer(userBalance); 
 
-    //send eth to user
-    //send interest in tokens to user
+    //send interest in dtokens to user
+    dtoken.mint(msg.sender, interest);
 
-    //reset depositer data
-
-    //emit event
+    //reset depositer data and emit event
+    depositStart[msg.sender] = 0;
+    etherBalanceOf[msg.sender] = 0; 
+    isDeposited[msg.sender] = false;
+    emit Withdraw(msg.sender, userBalance, depositTime, interest);
   }
 
   function borrow() payable public {

@@ -20,7 +20,7 @@ contract('dBank', ([deployer, user]) => {
   describe('testing dtoken contract...', () => {
     describe('success', () => {
       it('checking dtoken name', async () => {
-        expect(await dtoken.name()).to.be.eq('Decentralized Bank Currency')
+        expect(await dtoken.name()).to.be.eq('dToken')
       })
 
       it('checking dtoken symbol', async () => {
