@@ -1,9 +1,14 @@
 {
   "name": "dapptoken",
   "version": "0.1.0",
-  "description": "Dapp Token",
+  "description": "Dapp Token Sale ICO",
+  "main": "truffle.js",
   "author": "garyb9",
+  "license": "MIT",
   "homepage": ".",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "@openzeppelin/contracts": "4.1.0",
     "@truffle/hdwallet-provider": "1.1.0",
