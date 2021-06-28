@@ -14,7 +14,11 @@ contract DappToken{ /* is ERC20 */
     mapping (address => uint) public balanceOf;
      
     // Events
-
+    event Transfer(
+        address indexed _from, 
+        address indexed _to, 
+        uint256 value
+    );
 
     // Constructor
     constructor(uint _initialSupply){
@@ -27,6 +31,10 @@ contract DappToken{ /* is ERC20 */
     function transfer(address _to, uint _value) public returns(bool success){
         require(_value <= totalSupply, "Error: transfer value is greater than totalSupply!");
         require(_value <= balanceOf[msg.sender], "Error: transfer value is greater than balanceOf sender!");
-        success = true;
+
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
+        return success = true;
     }
 }
