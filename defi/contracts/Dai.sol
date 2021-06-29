@@ -7,7 +7,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract Dai is ERC20{
 
     // Constructor
-    constructor() ERC20('Dai Stablecoin', 'DAI'){
-        // do nothing, inherits
+    constructor() ERC20('Dai Stablecoin', 'DAI'){}
+
+    // Functions
+    function faucet(address _recipient, uint256 _amount) external{
+        _mint(_recipient, _amount);
     }
 }
