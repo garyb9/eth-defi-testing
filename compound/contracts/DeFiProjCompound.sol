@@ -1,17 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.5.16;
 
+import "./IERC20.sol";
+import "./ComptrollerInterface.sol";
+import "./CTokenInterfaces.sol";
+
 contract DeFiProjCompound{
 
-    // Structs
     // Variables
-    address public manager;
+    address                 public manager;
+    IERC20                  public dai;
+    IERC20                  public bat;
+    CTokenInterface         public cDai;
+    CTokenInterface         public cBat;
+    ComptrollerInterface    public Comptroller;
 
     // Constructor
-    constructor(address uniswapFactoryAddress) public {
-        // setting up Uniswap V2 Factory
+    constructor() public {
         manager = msg.sender;
-        uniswapFactory = UniswapV2Factory(uniswapFactoryAddress);
     }
 
     // Modifiers
