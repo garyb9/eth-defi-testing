@@ -40,7 +40,7 @@ contract DeFiProjUniswapV2{
     function createPair(string calldata name, address tokenA, address tokenB) 
         external returns(address addressPair) {
         // super
-        addressPair = uniswapFactory.createPair(tokenA, tokenB); // returns address pair
+        addressPair = uniswapFactory.createPair(tokenA, tokenB); // emits PairCreated event
         // record
         uniPairNames[name] = addressPair;
         (uint112 res0, uint112 res1, uint32 timestampLast) = IUniswapV2Pair(addressPair).getReserves();
