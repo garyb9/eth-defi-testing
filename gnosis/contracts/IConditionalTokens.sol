@@ -38,7 +38,12 @@ contract IConditionalTokens is IERC1155 {
         uint amount
     ) external {}
 
-    function redeemPositions(IERC20 collateralToken, bytes32 parentCollectionId, bytes32 conditionId, uint[] calldata indexSets) external {}
+    function redeemPositions(
+        IERC20 collateralToken, 
+        bytes32 parentCollectionId, 
+        bytes32 conditionId, 
+        uint[] calldata indexSets
+    ) external {}
 
     /// @dev Gets the outcome slot count of a condition.
     /// @param conditionId ID of the condition.

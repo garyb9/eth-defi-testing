@@ -5,8 +5,8 @@ import "./IERC1155.sol";
 import "./IERC1155TokenReceiver.sol";
 import "./IConditionalTokens.sol";
 
-contract DeFiProjGnosis is IERC1155TokenReceiver {
-    
+contract ConditionalTokensWallet is IERC20, IERC1155, IERC1155TokenReceiver {
+
     // Vatiables
     IERC20 dai;
     IConditionalTokens conditionalTokens;
@@ -20,6 +20,14 @@ contract DeFiProjGnosis is IERC1155TokenReceiver {
         _;
     }
 
+    // Events 
+
+    event Redeemed(IERC20 collateralToken, 
+        bytes32 parentCollectionId, 
+        bytes32 conditionId, 
+        uint[] indexSets
+    );
+
     // Constructor
     constructor(
         address _dai,
@@ -32,69 +40,34 @@ contract DeFiProjGnosis is IERC1155TokenReceiver {
         admin = msg.sender;
     }
 
-    // Functions
-    function createBet(bytes32 questionId, uint256 amount) external {
-        // setting up 3 outcome slots
-        conditionalTokens.prepareCondition(
-            oracle, 
-            questionId, 
-            3
-        );
-
-        bytes32 conditionId = conditionalTokens.getConditionId(
-            oracle, 
-            questionId, 
-            3
-        );
-
-        uint256[] memory partition = new uint[](2);
-
-        dai.approve(address(conditionalTokens), amount);
-        conditionalTokens.splitPosition(
-            dai, 
-            bytes32(0), 
-            conditionId, 
-            partition, 
-            amount
-        );
-
-        tokenBalance[questionId][0] = amount;
-        tokenBalance[questionId][1] = amount;
-    }
-
-
-    function transferTokens(
-        bytes32 questionId, 
-        uint256 indexSet,
-        address to, 
-        uint256 amount
-    ) external restricted {
-        require(tokenBalance[questionId][indexSet] >= amount, 'Error: Not enough tokens.');
-
-        // setting up transfer parameters
-        bytes32 conditionId = conditionalTokens.getConditionId(
-            oracle, 
-            questionId, 
-            3
-        );
-
-        bytes32 collectionId = conditionalTokens.getCollectionId(
-            bytes32(0), 
-            conditionId, 
+    // Functions 
+    function redeemTokens(
+        bytes32 conditionId,
+        uint256[] calldata indexSet
+    ) external {
+        // a conditional redeem if a condition has been made
+        conditionalTokens.redeemPositions(
+            dai,
+            bytes32(0),
+            conditionId,
             indexSet
         );
 
-        uint256 positionId = conditionalTokens.getPositionId(
-            dai, 
-            collectionId
+        emit Redeemed(
+            dai,
+            bytes32(0),
+            conditionId,
+            indexSet
         );
+    }
 
-        conditionalTokens.safeTransferFrom(
+    function transferDai(address to, uint256 amount) external restricted {
+        dai.transfer(to, amount);
+
+        emit Transfer(
             address(this), 
-            to, // Needs to implement ERC1155TokenReceiver
-            positionId, 
-            amount, 
-            ""
+            to, 
+            amount
         );
     }
 
@@ -147,5 +120,4 @@ contract DeFiProjGnosis is IERC1155TokenReceiver {
     returns(bytes4){
         return bytes4(keccak256("onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)"));
     }
-    
 }
