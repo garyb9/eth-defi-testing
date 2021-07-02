@@ -1,5 +1,5 @@
 # Ethereum-DeFi-Testing-Contracts
-DeFi contracts - 
+DeFi contracts for testing features - 
 
 * Chainlink
 * MakerDAO / Dai 
