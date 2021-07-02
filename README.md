@@ -1,2 +1,15 @@
 # Ethereum-DeFi-Testing-Contracts
-DeFi contracts - chainlink, dai, erc20, erc721. Running on Brownie, Hardhat and Truffle with Ganache. 
+DeFi contracts - 
+
+* Chainlink
+* MakerDAO / Dai 
+* Compound
+* Gnosis 
+* Uniswap 
+* ERC20
+* ERC165
+* ERC721
+* ERC1155
+* DeFi
+
+Running on Brownie, Hardhat and Truffle with Ganache.
