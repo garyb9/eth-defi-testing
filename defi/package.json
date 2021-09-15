@@ -8,7 +8,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.3.1",
+    "@openzeppelin/contracts": "4.3.2",
     "@truffle/hdwallet-provider": "1.1.0",
     "@uniswap/v2-core": "^1.0.1",
     "chai": "4.2.0",
