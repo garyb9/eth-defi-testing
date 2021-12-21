@@ -11,7 +11,7 @@
     "@compound-finance/compound-js": "^0.2.13",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "4.1.0",
+    "@openzeppelin/contracts": "4.4.1",
     "@uniswap/v2-core": "^1.0.1",
     "chai": "^4.3.4",
     "compound-protocol-kakapo911": "^0.2.4",
